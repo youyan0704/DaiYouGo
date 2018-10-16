@@ -22,10 +22,20 @@ class Order(models.Model):
     # 已删除标记
     is_deleted = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ['-order_datetime']
+
+    def __str__(self):
+        return self.name
+
 
 # 订单跟用户对应关系
 class OrderUserRelation(models.Model):
+
+    class Meta:
+        db_table = 'daigo_order_user_relation'
+
     # 订单
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     # 对应的用户
-    userId = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
