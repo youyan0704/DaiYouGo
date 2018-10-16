@@ -5,6 +5,9 @@ from django.views import View
 
 
 class Home(View):
-    @classmethod
-    def as_view(cls):
-        return 'Hello world'
+    template_name = "xauth/login_origin.html"
+    # template_name = "base.html"
+
+    def get(self, request, *args, **kwargs):
+        # form = self.form_class()
+        return render(request, self.template_name)
