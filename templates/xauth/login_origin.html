@@ -53,30 +53,42 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- END SIDEBAR TOGGLER BUTTON -->
         <!-- BEGIN LOGO -->
         <div class="logo">
-            <a href="/">
-                <img src="{% static 'assets/admin/layout4/img/logo-big.png' %}" alt=""/>
+            <a href="/" style="text-decoration:none;">
+{#                <img src="{% static 'assets/admin/layout4/img/logo-big.png' %}" alt=""/>#}
+                <h3 class="logo-default ">代 <span style="color: red">你</span> 购</h3>
             </a>
-{#            <label class="color-blue">代 <label class="color-red">你</label> 购</label>#}
         </div>
         <!-- END LOGO -->
         <!-- BEGIN LOGIN -->
         <div class="content">
             <!-- BEGIN LOGIN FORM -->
             <form class="login-form" action="" method="post">
+                {% csrf_token %}
                 <h3 class="form-title">登录</h3>
-                <div class="alert alert-danger display-hide">
+                {% if messages %}
+                    <div class="alert alert-danger">
                     <button class="close" data-close="alert"></button>
                     <span>
-                    Enter any username and password. </span>
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                    </span>
+                {% else %}
+                    <div class="alert alert-danger display-hide">
+                    <button class="close" data-close="alert"></button>
+                    <span>
+                    请输入用户, 密码 !
+                    </span>
+                {% endif %}
                 </div>
                 <div class="form-group">
                     <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                    <label class="control-label visible-ie8 visible-ie9">Username</label>
-                    <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username"/>
+                    <label class="control-label visible-ie8 visible-ie9">用户名</label>
+                    <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名" name="username"/>
                 </div>
                 <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">Password</label>
-                    <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password"/>
+                    <label class="control-label visible-ie8 visible-ie9">密码</label>
+                    <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="密码" name="password"/>
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn btn-success uppercase">登录</button>
@@ -110,6 +122,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <!-- END LOGIN FORM -->
             <!-- BEGIN FORGOT PASSWORD FORM -->
             <form class="forget-form" action="index.html" method="post">
+                {% csrf_token %}
                 <h3>忘记密码 ?</h3>
                 <p>
                      Enter your e-mail address below to reset your password.
@@ -125,6 +138,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <!-- END FORGOT PASSWORD FORM -->
             <!-- BEGIN REGISTRATION FORM -->
             <form class="register-form" action="index.html" method="post">
+                {% csrf_token %}
                 <h3>注册</h3>
 {#                <p class="hint">#}
 {#                     Enter your personal details below:#}

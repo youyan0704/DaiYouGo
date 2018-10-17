@@ -24,7 +24,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <meta content="" name="description"/>
 <meta content="" name="author"/>
 <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    {% load staticfiles %}
+        {% load staticfiles %}
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
 <link href="{% static 'assets/global/plugins/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css"/>
 <link href="{% static 'assets/global/plugins/simple-line-icons/simple-line-icons.min.css' %}" rel="stylesheet" type="text/css"/>
@@ -50,10 +50,10 @@ License: You must have a valid license purchased only from themeforest(the above
 <link href="{% static 'assets/admin/layout4/css/custom.css' %}" rel="stylesheet" type="text/css"/>
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="{% static 'favicon.ico'  %}"/>
-{% block head %}{% endblock %}
+{% block head %}
+{% endblock %}
 </head>
 <!-- END HEAD -->
-{% block body %}
 <!-- BEGIN BODY -->
 <!-- DOC: Apply "page-header-fixed-mobile" and "page-footer-fixed-mobile" class to body element to force fixed header or footer in mobile devices -->
 <!-- DOC: Apply "page-sidebar-closed" class to the body and "page-sidebar-menu-closed" class to the sidebar menu element to hide the sidebar by default -->
@@ -65,14 +65,16 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
 <!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-sidebar-closed-hide-logo">
+{% block body %}
 <!-- BEGIN HEADER -->
 <div class="page-header navbar navbar-fixed-top">
 	<!-- BEGIN HEADER INNER -->
 	<div class="page-header-inner">
 		<!-- BEGIN LOGO -->
 		<div class="page-logo">
-			<a href="/">
-			<img src="{% static 'assets/admin/layout4/img/logo-light.png' %}" alt="logo" class="logo-default"/>
+			<a href="/" style="text-decoration:none;">
+{#			<img src="{% static 'assets/admin/layout4/img/logo-light.png' %}" alt="logo" class="logo-default"/>#}
+                <h3 class="logo-default ">代<span style="color: red">你</span>购</h3>
 			</a>
 			<div class="menu-toggler sidebar-toggler">
 				<!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
@@ -83,42 +85,6 @@ License: You must have a valid license purchased only from themeforest(the above
 		<a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
 		</a>
 		<!-- END RESPONSIVE MENU TOGGLER -->
-		<!-- BEGIN PAGE ACTIONS -->
-		<!-- DOC: Remove "hide" class to enable the page header actions -->
-{#		<div class="page-actions">#}
-{#			<div class="btn-group">#}
-{#				<button type="button" class="btn red-haze btn-sm dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">#}
-{#				<span class="hidden-sm hidden-xs">Actions&nbsp;</span><i class="fa fa-angle-down"></i>#}
-{#				</button>#}
-{#				<ul class="dropdown-menu" role="menu">#}
-{#					<li>#}
-{#						<a href="javascript:;">#}
-{#						<i class="icon-docs"></i> New Post </a>#}
-{#					</li>#}
-{#					<li>#}
-{#						<a href="javascript:;">#}
-{#						<i class="icon-tag"></i> New Comment </a>#}
-{#					</li>#}
-{#					<li>#}
-{#						<a href="javascript:;">#}
-{#						<i class="icon-share"></i> Share </a>#}
-{#					</li>#}
-{#					<li class="divider">#}
-{#					</li>#}
-{#					<li>#}
-{#						<a href="javascript:;">#}
-{#						<i class="icon-flag"></i> Comments <span class="badge badge-success">4</span>#}
-{#						</a>#}
-{#					</li>#}
-{#					<li>#}
-{#						<a href="javascript:;">#}
-{#						<i class="icon-users"></i> Feedbacks <span class="badge badge-danger">2</span>#}
-{#						</a>#}
-{#					</li>#}
-{#				</ul>#}
-{#			</div>#}
-{#		</div>#}
-		<!-- END PAGE ACTIONS -->
 		<!-- BEGIN PAGE TOP -->
 		<div class="page-top">
 			<!-- BEGIN HEADER SEARCH BOX -->
@@ -443,7 +409,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					<li class="dropdown dropdown-user dropdown-dark">
 						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 						<span class="username username-hide-on-mobile">
-						Nick </span>
+						{{ request.user.username }} </span>
 						<!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
 						<img alt="" class="img-circle" src="{% static 'assets/admin/layout4/img/avatar9.jpg' %}"/>
 						</a>
@@ -471,12 +437,12 @@ License: You must have a valid license purchased only from themeforest(the above
 							<li class="divider">
 							</li>
 							<li>
-								<a href="extra_lock.html">
-								<i class="icon-lock"></i> Lock Screen </a>
+								<a href="{% url 'extra_lock' %}">
+								<i class="icon-lock"></i> 锁定屏幕 </a>
 							</li>
 							<li>
-								<a href="login.html">
-								<i class="icon-key"></i> Log Out </a>
+								<a href="{% url 'logout' %}">
+								<i class="icon-key"></i> 注销 </a>
 							</li>
 						</ul>
 					</li>
@@ -510,7 +476,6 @@ License: You must have a valid license purchased only from themeforest(the above
 	</div>
 </div>
 <!-- END FOOTER -->
-{% block script %}
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 <!-- BEGIN CORE PLUGINS -->
 <!--[if lt IE 9]>
@@ -560,9 +525,9 @@ jQuery(document).ready(function() {
  Tasks.initDashboardWidget(); // init tash dashboard widget
 });
 </script>
+{% block script %}{% endblock %}
 <!-- END JAVASCRIPTS -->
 {% endblock %}
 </body>
 <!-- END BODY -->
-{% endblock %}
 </html>

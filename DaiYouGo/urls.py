@@ -15,11 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from xauth.views import Home
+from xauth.views import LoginPage, HomePageView, logout_view, ExtraLockView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', Home.as_view(), name='home'),
+    path('', LoginPage.as_view(), name='login'),
+    path('login/', LoginPage.as_view(), name='login'),
+    path('logout/', logout_view, name='logout'),
+    path('extra_lock/', ExtraLockView.as_view(), name='extra_lock'),
+    path('index/', HomePageView.as_view(), name='homePage'),
     path('daigo/', include('daigo.urls'))
 ]
