@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -9,6 +9,7 @@ from django.shortcuts import render
 from django.views import View
 
 from daigo.forms import LoginForm
+from xauth.models import SystemMenu, GroupSystemMenu
 
 
 class LoginPage(View):
@@ -29,8 +30,7 @@ class LoginPage(View):
 
             if user:
                 login(request, user)
-                # user_menu = get_menu(user)
-                # request.session['user_menu'] = user_menu
+                request.session['menu'] = self.get_user_menu(user)
                 return HttpResponseRedirect('/index')
             else:
                 user = User.objects.filter(username=username)
@@ -39,6 +39,15 @@ class LoginPage(View):
                 else:
                     messages.error(request, "用户不存在")
         return render(request, self.template_name, {'form': form})
+
+    def get_user_menu(self, user):
+        user_menus = []
+        menus = SystemMenu.objects.filter(activate=1,
+                                          id=GroupSystemMenu.objects.get(
+                                              group=Group.objects.get(user=user)).group.id).all()
+        for menu in menus:
+            user_menus.append({'action': menu.action, 'name': menu.name, 'style': menu.style})
+        return user_menus
 
 
 def logout_view(request):
