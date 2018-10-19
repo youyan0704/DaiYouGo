@@ -30,7 +30,7 @@ class LoginPage(View):
 
             if user:
                 login(request, user)
-                request.session['menu'] = self.get_user_menu(user)
+                request.session['menu'] = get_user_menu(user)
                 return HttpResponseRedirect('/index')
             else:
                 user = User.objects.filter(username=username)
@@ -40,14 +40,20 @@ class LoginPage(View):
                     messages.error(request, "用户不存在")
         return render(request, self.template_name, {'form': form})
 
-    def get_user_menu(self, user):
-        user_menus = []
-        menus = SystemMenu.objects.filter(activate=1,
-                                          id=GroupSystemMenu.objects.get(
-                                              group=Group.objects.get(user=user)).group.id).all()
-        for menu in menus:
-            user_menus.append({'action': menu.action, 'name': menu.name, 'style': menu.style})
-        return user_menus
+
+def get_user_menu(user):
+    user_menus = []
+    group_menus = GroupSystemMenu.objects.filter(activate=1,
+                                                 group=Group.objects.get(
+                                                     user=user)).all()
+    for group_menu in group_menus:
+        menu = group_menu.menu
+        user_menus.append({'id': menu.id,
+                           'action': menu.action,
+                           'name': menu.name,
+                           'style': menu.style,
+                           'parent': menu.parent_id})
+    return user_menus
 
 
 def logout_view(request):
@@ -73,4 +79,5 @@ class HomePageView(LoginRequiredMixin, View):
     template_name = "xauth/index.html"
 
     def get(self, request):
+        request.session['menu'] = get_user_menu(request.user)
         return render(request, self.template_name)
