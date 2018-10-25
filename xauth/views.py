@@ -51,7 +51,7 @@ def get_user_menu(user):
         user_menus.append({'id': menu.id,
                            'action': menu.action,
                            'name': menu.name,
-                           'style': menu.style,
+                           'style': menu.get_style_display(),
                            'parent': menu.parent_id})
     return user_menus
 
