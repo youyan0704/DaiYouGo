@@ -25,5 +25,6 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('extra_lock/', ExtraLockView.as_view(), name='extra_lock'),
     path('index/', HomePageView.as_view(), name='homePage'),
+    # daigo app
     path('daigo/', include('daigo.urls'))
 ]

@@ -5,6 +5,9 @@
 from django.contrib import admin
 from django.urls import path, include
 
+from daigo.views import *
+
 urlpatterns = [
-    # path('daigo/', include('daigo.urls'))
+    path('orders/', orders, name='orders'),
+    path('orders/<int:id>', order, name='order')
 ]

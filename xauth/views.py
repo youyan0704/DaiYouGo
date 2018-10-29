@@ -76,7 +76,7 @@ class ExtraLockView(View):
 class HomePageView(LoginRequiredMixin, View):
     """主页面"""
 
-    template_name = "xauth/index.html"
+    template_name = "index_base.html"
 
     def get(self, request):
         request.session['menu'] = get_user_menu(request.user)
